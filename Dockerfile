@@ -12,7 +12,7 @@ ENV DISTRO_VERSION="bionic"
 RUN apt-get update && apt-get install -y git wget build-essential libxml2 libxml2-dev
 
 # Download PHP 5.2.17
-RUN wget -P /tmp http://museum.php.net/php5/php-5.2.17.tar.bz2
+RUN wget -P /tmp/ http://museum.php.net/php5/php-5.2.17.tar.bz2
 
 # Extract the downloaded file
 RUN tar -xjf /tmp/php-5.2.17.tar.bz2
@@ -21,10 +21,13 @@ RUN tar -xjf /tmp/php-5.2.17.tar.bz2
 WORKDIR /tmp/php-5.2.17
 
 # Download the patch
-RUN wget -P /tmp https://mail.gnome.org/archives/xml/2012-August/txtbgxGXAvz4N.txt
+RUN wget -P /tmp/ https://mail.gnome.org/archives/xml/2012-August/txtbgxGXAvz4N.txt
 
 # Apply the patch
 RUN patch -p0 < /tmp/txtbgxGXAvz4N.txt
+
+# Change to the extracted directory
+WORKDIR /tmp/php-5.2.17
 
 # Configure PHP
 RUN ./configure

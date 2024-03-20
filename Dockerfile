@@ -8,7 +8,7 @@ ENV DISTRO="ubuntu"
 ENV DISTRO_VERSION="bionic"
 
 # Install wget and git
-RUN apt-get update && apt-get install -y git wget build-essential libxml2 libxml2-dev
+RUN apt-get update && apt-get install -y lsb-release git wget build-essential libxml2 libxml2-dev
 
 # Download PHP 5.2.17
 RUN wget -P /tmp/ http://museum.php.net/php5/php-5.2.17.tar.bz2

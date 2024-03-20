@@ -45,9 +45,6 @@ RUN make
 # Install PHP
 RUN make install
 
-# Run cgi service
-RUN /usr/local/bin/php-cgi -b 127.0.0.1:9000 &
-
 # Add MySQL install script repository
 RUN cd /tmp/ && git clone https://github.com/dumitru0194/assessment_src.git
 
@@ -61,4 +58,4 @@ RUN useradd -m -s /bin/bash -G sudo myuser && echo 'myuser:1234' | chpasswd
 EXPOSE 80 3306 443
 
 # Start Nginx and MySQL services
-CMD service nginx restart && service mysql restart && /bin/bash
+CMD service nginx restart && service mysql restart && /usr/local/bin/php-cgi -b 127.0.0.1:9000 & && /bin/bash

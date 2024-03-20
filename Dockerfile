@@ -6,12 +6,13 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 
 # Install wget and git
-RUN apt-get update && apt-get install -y gnupg lsb-release git wget build-essential libxml2 libxml2-dev nginx lsyncd sudo
+RUN apt-get update && apt-get install -y gnupg lsb-release git wget build-essential libxml2 libxml2-dev nginx lsyncd sudo nano net-tools pkg-config libssl-dev libbz2-dev libcurl4-openssl-dev libjpeg-dev libpng-dev libfreetype6-dev libmcrypt-dev libxslt1-dev
 
 # Copy Nginx configs into container
 COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 COPY ./nginx/nginx-selfsigned.crt /etc/nginx/ssl/
 COPY ./nginx/nginx-selfsigned.key /etc/nginx/ssl/
+COPY ./nginx/src/index.php /usr/share/nginx/html/
 
 # Copy lsync configuration
 COPY ./lsyncd/lsyncd.conf.lua /etc/lsyncd/lsyncd.conf.lua
@@ -53,4 +54,4 @@ RUN useradd -m -s /bin/bash -G sudo myuser && echo 'myuser:1234' | chpasswd
 EXPOSE 80 3306 443
 
 # Start Nginx and MySQL services
-CMD service nginx restart && service mysql restart && service lsycnd.service restart && /bin/bash
+CMD service nginx restart && service mysql restart && /bin/bash

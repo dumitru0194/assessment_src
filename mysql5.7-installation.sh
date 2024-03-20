@@ -13,7 +13,7 @@ echo "mysql-apt-config mysql-apt-config/repo-codename select bionic" | debconf-s
 echo "mysql-apt-config mysql-apt-config/repo-url string http://repo.mysql.com/apt" | debconf-set-selections
 
 apt-key --keyring /etc/apt/trusted.gpg.d/mysql-keyring.gpg adv --keyserver keyserver.ubuntu.com --recv B7B3B788A8D3785C
-DEBIAN_FRONTEND=noninteractive dpkg -i mysql-apt-config_0.7.2-1_all.deb
+DEBIAN_FRONTEND=noninteractive dpkg -i mysql-apt-config_0.8.12-1_all.deb
 apt update
 debconf-set-selections <<< 'mysql-community-server mysql-community-server/root-pass password root'
 debconf-set-selections <<< 'mysql-community-server mysql-community-server/re-root-pass password root'

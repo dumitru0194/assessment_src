@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 
 # Install wget and git
-RUN apt-get update && apt-get install -y gnupg lsb-release git wget build-essential libxml2 libxml2-dev nginx lsyncd
+RUN apt-get update && apt-get install -y gnupg lsb-release git wget build-essential libxml2 libxml2-dev nginx lsyncd sudo
 
 # Copy Nginx configs into container
 COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
@@ -53,4 +53,4 @@ RUN useradd -m -s /bin/bash -G sudo myuser && echo 'myuser:1234' | chpasswd
 EXPOSE 80 3306 443
 
 # Start Nginx and MySQL services
-CMD service nginx start && service mysql start && /bin/bash
+CMD service nginx restart && service mysql restart && service lsycnd restart

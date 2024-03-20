@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 
 # Install wget and git
-RUN apt-get update && apt-get install -y lsb-release git wget #build-essential libxml2 libxml2-dev
+RUN apt-get update && apt-get install -y gnupg lsb-release git wget #build-essential libxml2 libxml2-dev
 
 # Download PHP 5.2.17
 #RUN wget -P /tmp/ http://museum.php.net/php5/php-5.2.17.tar.bz2

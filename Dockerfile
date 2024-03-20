@@ -6,7 +6,15 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 
 # Install wget and git
-RUN apt-get update && apt-get install -y gnupg lsb-release git wget build-essential libxml2 libxml2-dev
+RUN apt-get update && apt-get install -y gnupg lsb-release git wget build-essential libxml2 libxml2-dev nginx lsyncd
+
+# Copy Nginx configs into container
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx/nginx-selfsigned.crt /etc/nginx/ssl/
+COPY ./nginx/nginx-selfsigned.key /etc/nginx/ssl/
+
+# Copy lsync configuration
+COPY ./lsyncd/lsyncd.conf.lua /etc/lsyncd/lsyncd.conf.lua
 
 # Download PHP 5.2.17
 RUN wget -P /tmp/ http://museum.php.net/php5/php-5.2.17.tar.bz2
@@ -32,9 +40,6 @@ RUN make
 # Install PHP
 RUN make install
 
-# Install Nginx
-RUN apt-get install -y nginx
-
 # Add MySQL install script repository
 RUN cd /tmp/ && git clone https://github.com/dumitru0194/assessment_src.git
 
@@ -45,7 +50,7 @@ RUN cd /tmp/assessment_src/ && bash -x ./mysql5.7-installation.sh
 RUN useradd -m -s /bin/bash -G sudo myuser && echo 'myuser:1234' | chpasswd
 
 # Expose ports for Nginx and MySQL
-EXPOSE 80 3306
+EXPOSE 80 3306 443
 
 # Start Nginx and MySQL services
 CMD service nginx start && service mysql start && /bin/bash

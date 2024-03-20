@@ -2,13 +2,8 @@ FROM ubuntu:20.04
 
 # Set noninteractive mode and set necessary variables
 ENV DEBIAN_FRONTEND=noninteractive \
-    MYSQL_SERVER_VERSION="mysql-5.7" \
-    MYSQL_TOOLS="mysql-tools" \
-    DISTRO="ubuntubionic" \
-    DISTRO_VERSION="bionic" \
-    TZ=Europe/Bucharest \
-    SELECT_PRODUCT="Ok" \
-    ACCEPT_EULA=Y
+    TZ=Europe/Bucharest 
+
 
 # Install wget and git
 RUN apt-get update && apt-get install -y lsb-release git wget #build-essential libxml2 libxml2-dev

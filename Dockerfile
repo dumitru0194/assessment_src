@@ -6,16 +6,20 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 
 # Install wget and git
-RUN apt-get update && apt-get install -y gnupg lsb-release git wget build-essential libxml2 libxml2-dev nginx lsyncd sudo nano net-tools pkg-config libssl-dev libbz2-dev libcurl4-openssl-dev libjpeg-dev libpng-dev libfreetype6-dev libmcrypt-dev libxslt1-dev
+RUN apt-get update && apt-get install -y curl gnupg lsb-release git wget locate build-essential libxml2 libxml2-dev nginx lsyncd sudo nano net-tools pkg-config
 
 # Copy Nginx configs into container
 COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 COPY ./nginx/nginx-selfsigned.crt /etc/nginx/ssl/
 COPY ./nginx/nginx-selfsigned.key /etc/nginx/ssl/
 COPY ./nginx/src/index.php /usr/share/nginx/html/
+RUN rm -f /usr/share/nginx/html/index.html
 
 # Copy lsync configuration
 COPY ./lsyncd/lsyncd.conf.lua /etc/lsyncd/lsyncd.conf.lua
+
+# Create directories for lsycn syncronization
+RUN mkdir -p /data/www/ /data1/www/
 
 # Download PHP 5.2.17
 RUN wget -P /tmp/ http://museum.php.net/php5/php-5.2.17.tar.bz2
@@ -33,13 +37,16 @@ RUN wget -P /tmp/ https://mail.gnome.org/archives/xml/2012-August/txtbgxGXAvz4N.
 RUN patch -p0 < /tmp/txtbgxGXAvz4N.txt
 
 # Configure PHP
-RUN ./configure --enable-fpm
+RUN ./configure --enable-cgi --enable-fastcgi --with-config-file-path=/usr/local/bin/php-config
 
 # Build PHP
 RUN make
 
 # Install PHP
 RUN make install
+
+# Run cgi service
+RUN /usr/local/bin/php-cgi -b 127.0.0.1:9000 &
 
 # Add MySQL install script repository
 RUN cd /tmp/ && git clone https://github.com/dumitru0194/assessment_src.git

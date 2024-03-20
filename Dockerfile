@@ -33,7 +33,7 @@ RUN wget -P /tmp/ https://mail.gnome.org/archives/xml/2012-August/txtbgxGXAvz4N.
 RUN patch -p0 < /tmp/txtbgxGXAvz4N.txt
 
 # Configure PHP
-RUN ./configure
+RUN ./configure --enable-fpm
 
 # Build PHP
 RUN make

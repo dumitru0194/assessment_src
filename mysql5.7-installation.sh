@@ -1,14 +1,16 @@
 #!/bin/bash
 export DEBIAN_FRONTEND=noninteractive
 
-debconf-set-selections <<< 'mysql-apt-config mysql-apt-config/repo-codename select bionic'
-debconf-set-selections <<< 'mysql-apt-config mysql-apt-config/repo-distro select ubuntu'
-debconf-set-selections <<< 'mysql-apt-config mysql-apt-config/repo-url string http://repo.mysql.com/apt/'
-debconf-set-selections <<< 'mysql-apt-config mysql-apt-config/select-preview select '
-debconf-set-selections <<< 'mysql-apt-config mysql-apt-config/select-product select Ok'
-debconf-set-selections <<< 'mysql-apt-config mysql-apt-config/select-server select mysql-5.7'
-debconf-set-selections <<< 'mysql-apt-config mysql-apt-config/select-tools select '
-debconf-set-selections <<< 'mysql-apt-config mysql-apt-config/unsupported-platform select abort'
+echo "mysql-apt-config mysql-apt-config/select-product select mysql-5.7" | debconf-set-selections
+echo "mysql-apt-config mysql-apt-config/select-server select mysql-5.7" | debconf-set-selections
+echo "mysql-apt-config mysql-apt-config/select-tools select Enabled" | debconf-set-selections
+echo "mysql-apt-config mysql-apt-config/tools-component string mysql-tools" | debconf-set-selections
+echo "mysql-apt-config mysql-apt-config/select-preview select Disabled" | debconf-set-selections
+echo "mysql-apt-config mysql-apt-config/preview-component string " | debconf-set-selections
+echo "mysql-apt-config mysql-apt-config/unsupported-platform select abort" | debconf-set-selections
+echo "mysql-apt-config mysql-apt-config/repo-distro select ubuntu" | debconf-set-selections
+echo "mysql-apt-config mysql-apt-config/repo-codename select bionic" | debconf-set-selections
+echo "mysql-apt-config mysql-apt-config/repo-url string http://repo.mysql.com/apt" | debconf-set-selections
 
 apt-key --keyring /etc/apt/trusted.gpg.d/mysql-keyring.gpg adv --keyserver keyserver.ubuntu.com --recv B7B3B788A8D3785C
 dpkg -i mysql-apt-config_0.8.12-1_all.deb

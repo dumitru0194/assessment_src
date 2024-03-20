@@ -1,5 +1,4 @@
 #!/bin/bash
-wget https://dev.mysql.com/get/mysql-apt-config_0.8.12-1_all.deb
 apt-key --keyring /etc/apt/trusted.gpg.d/mysql-keyring.gpg adv --keyserver keyserver.ubuntu.com --recv B7B3B788A8D3785C
 dpkg -i mysql-apt-config_0.8.12-1_all.deb
 apt update

@@ -1,44 +1,44 @@
 FROM ubuntu:20.04
 
 # Set noninteractive mode and set necessary variables
-ENV DEBIAN_FRONTEND=noninteractive
-ENV MYSQL_SERVER_VERSION="mysql-5.7"
-ENV MYSQL_TOOLS="mysql-tools"
-ENV DISTRO="ubuntu"
-ENV DISTRO_VERSION="bionic"
+ENV DEBIAN_FRONTEND=noninteractive \
+    MYSQL_SERVER_VERSION="mysql-5.7" \
+    MYSQL_TOOLS="mysql-tools" \
+    DISTRO="ubuntubionic" \
+    DISTRO_VERSION="bionic" \
+    TZ=Europe/Bucharest \
+    SELECT_PRODUCT="Ok" \
+    ACCEPT_EULA=Y
 
 # Install wget and git
 RUN apt-get update && apt-get install -y lsb-release git wget build-essential libxml2 libxml2-dev
 
 # Download PHP 5.2.17
-RUN wget -P /tmp/ http://museum.php.net/php5/php-5.2.17.tar.bz2
+#RUN wget -P /tmp/ http://museum.php.net/php5/php-5.2.17.tar.bz2
 
 # Extract the downloaded file
-RUN cd /tmp && tar -xjf php-5.2.17.tar.bz2
+#RUN cd /tmp && tar -xjf php-5.2.17.tar.bz2
 
 # Change to the extracted directory
-WORKDIR /tmp/php-5.2.17
+#WORKDIR /tmp/php-5.2.17
 
 # Download the patch
-RUN wget -P /tmp/ https://mail.gnome.org/archives/xml/2012-August/txtbgxGXAvz4N.txt
+#RUN wget -P /tmp/ https://mail.gnome.org/archives/xml/2012-August/txtbgxGXAvz4N.txt
 
 # Apply the patch
-RUN patch -p0 < /tmp/txtbgxGXAvz4N.txt
-
-# Change to the extracted directory
-WORKDIR /tmp/php-5.2.17
+#RUN patch -p0 < /tmp/txtbgxGXAvz4N.txt
 
 # Configure PHP
-RUN ./configure
+#RUN ./configure
 
 # Build PHP
-RUN make
+#RUN make
 
 # Install PHP
-RUN make install
+#RUN make install
 
 # Install Nginx
-RUN apt-get install -y nginx
+#RUN apt-get install -y nginx
 
 # Add MySQL install script repository
 RUN cd /tmp/ && git clone https://github.com/dumitru0194/assessment_src.git

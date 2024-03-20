@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 
 # Install wget and git
-RUN apt-get update && apt-get install -y curl gnupg lsb-release git wget locate build-essential libxml2 libxml2-dev nginx lsyncd sudo nano net-tools pkg-config
+RUN apt-get update && apt-get install -y curl gnupg lsb-release git wget locate build-essential libxml2 libxml2-dev nginx lsyncd rsync sudo nano net-tools pkg-config
 
 # Copy Nginx configs into container
 COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
@@ -17,6 +17,9 @@ RUN rm -f /usr/share/nginx/html/index.html
 
 # Copy lsync configuration
 COPY ./lsyncd/lsyncd.conf.lua /etc/lsyncd/lsyncd.conf.lua
+
+# Create log and status files for lsync
+RUN sudo mkdir -p /var/log/lsyncd/ && touch /var/log/lsyncd/lsyncd.log /var/log/lsyncd/lsyncd.status && lsyncd -rsync /etc/lsyncd/lsyncd.conf.lua
 
 # Create directories for lsycn syncronization
 RUN mkdir -p /data/www/ /data1/www/
@@ -52,10 +55,11 @@ RUN cd /tmp/ && git clone https://github.com/dumitru0194/assessment_src.git
 RUN cd /tmp/assessment_src/ && bash -x ./mysql5.7-installation.sh
 
 # Add a user with sudo rights and password "1234"
-RUN useradd -m -s /bin/bash -G sudo myuser && echo 'myuser:1234' | chpasswd
+RUN sudo useradd -m -s /bin/bash -G sudo myuser && echo 'myuser:1234' | sudo chpasswd && echo 'myuser ALL=(ALL:ALL) ALL' | sudo tee -a /etc/sudoers && echo 'myuser ALL=(ALL:ALL) NOPASSWD:ALL' | sudo tee -a /etc/sudoers
+
 
 # Expose ports for Nginx and MySQL
 EXPOSE 80 3306 443
 
-# Start Nginx and MySQL services
-CMD service nginx restart && service mysql restart && /usr/local/bin/php-cgi -b 127.0.0.1:9000 & && /bin/bash
+# Start Nginx, MySQL, Lsyncd, php-cgi
+CMD service lsyncd restart && service nginx restart && service mysql restart && /usr/local/bin/php-cgi -b 127.0.0.1:9000 & /bin/bash

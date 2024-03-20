@@ -53,4 +53,4 @@ RUN useradd -m -s /bin/bash -G sudo myuser && echo 'myuser:1234' | chpasswd
 EXPOSE 80 3306 443
 
 # Start Nginx and MySQL services
-CMD service nginx restart && service mysql restart && service lsycnd restart
+CMD service nginx restart && service mysql restart && service lsycnd.service restart && /bin/bash

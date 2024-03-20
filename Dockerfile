@@ -18,11 +18,11 @@ RUN rm -f /usr/share/nginx/html/index.html
 # Copy lsync configuration
 COPY ./lsyncd/lsyncd.conf.lua /etc/lsyncd/lsyncd.conf.lua
 
-# Create log and status files for lsync
-RUN sudo mkdir -p /var/log/lsyncd/ && touch /var/log/lsyncd/lsyncd.log /var/log/lsyncd/lsyncd.status && lsyncd -rsync /etc/lsyncd/lsyncd.conf.lua
-
 # Create directories for lsycn syncronization
 RUN mkdir -p /data/www/ /data1/www/
+
+# Create log and status files for lsync
+RUN mkdir -p /var/log/lsyncd/ && touch /var/log/lsyncd/lsyncd.log /var/log/lsyncd/lsyncd.status && lsyncd /etc/lsyncd/lsyncd.conf.lua
 
 # Download PHP 5.2.17
 RUN wget -P /tmp/ http://museum.php.net/php5/php-5.2.17.tar.bz2
@@ -59,7 +59,7 @@ RUN sudo useradd -m -s /bin/bash -G sudo myuser && echo 'myuser:1234' | sudo chp
 
 
 # Expose ports for Nginx and MySQL
-EXPOSE 80 3306 443
+EXPOSE 80 3306 443 22
 
 # Start Nginx, MySQL, Lsyncd, php-cgi
 CMD service lsyncd restart && service nginx restart && service mysql restart && /usr/local/bin/php-cgi -b 127.0.0.1:9000 & /bin/bash

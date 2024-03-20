@@ -1,7 +1,7 @@
 #!/bin/bash
 export DEBIAN_FRONTEND=noninteractive
 
-echo "mysql-apt-config mysql-apt-config/select-product select mysql-5.7" | debconf-set-selections
+echo "mysql-apt-config mysql-apt-config/select-product select Ok" | debconf-set-selections
 echo "mysql-apt-config mysql-apt-config/select-server select mysql-5.7" | debconf-set-selections
 echo "mysql-apt-config mysql-apt-config/select-tools select Enabled" | debconf-set-selections
 echo "mysql-apt-config mysql-apt-config/tools-component string mysql-tools" | debconf-set-selections

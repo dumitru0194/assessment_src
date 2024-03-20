@@ -1,4 +1,6 @@
 #!/bin/bash
+export DEBIAN_FRONTEND=noninteractive
+
 debconf-set-selections <<< 'mysql-apt-config mysql-apt-config/repo-codename select bionic'
 debconf-set-selections <<< 'mysql-apt-config mysql-apt-config/repo-distro select ubuntu'
 debconf-set-selections <<< 'mysql-apt-config mysql-apt-config/repo-url string http://repo.mysql.com/apt/'

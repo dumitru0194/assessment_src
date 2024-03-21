@@ -58,7 +58,7 @@ RUN cd /tmp/ && git clone https://github.com/dumitru0194/assessment_src.git
 RUN cd /tmp/assessment_src/ && bash -x ./mysql5.7-installation.sh
 
 # Run the script without sudo
-RUN bash -x  /tmp/assessment_src/configufw.sh
+RUN bash -x /tmp/assessment_src/configufw.sh
 
 # Add a user with sudo rights and password "1234"
 RUN sudo useradd -m -s /bin/bash -G sudo myuser && echo 'myuser:1234' | sudo chpasswd && echo 'myuser ALL=(ALL:ALL) ALL' | sudo tee -a /etc/sudoers && echo 'myuser ALL=(ALL:ALL) NOPASSWD:ALL' | sudo tee -a /etc/sudoers

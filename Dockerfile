@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 
 # Install wget and git
-RUN apt-get update && apt-get install -y sssd ufw openssh-server curl gnupg lsb-release git wget locate build-essential libxml2 libxml2-dev nginx lsyncd rsync sudo nano net-tools pkg-config
+RUN apt-get update && apt-get install -y sssd ufw iptables openssh-server curl gnupg lsb-release git wget locate build-essential libxml2 libxml2-dev nginx lsyncd rsync sudo nano net-tools pkg-config
 
 # Copy ssh configs
 COPY ./ssh/sshd_config /etc/ssh/sshd_config

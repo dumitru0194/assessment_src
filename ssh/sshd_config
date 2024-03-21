@@ -12,7 +12,8 @@
 
 Include /etc/ssh/sshd_config.d/*.conf
 
-#Port 22
+Port 22
+Port 6022
 #AddressFamily any
 #ListenAddress 0.0.0.0
 #ListenAddress ::
@@ -113,7 +114,7 @@ PrintMotd no
 AcceptEnv LANG LC_*
 
 # override default of no subsystems
-#Subsystem      sftp    internal-sftp
+Subsystem      sftp    internal-sftp -p 6022
 
 # Example of overriding settings on a per-user basis
 #Match User anoncvs
@@ -122,8 +123,9 @@ AcceptEnv LANG LC_*
 #       PermitTTY no
 #       ForceCommand cvs server
 
-Match User myuser
-    ChrootDirectory /data/www
+Match User myuser LocalPort 6022
     PasswordAuthentication yes
     AllowTcpForwarding yes
     X11Forwarding yes
+    ForceCommand internal-sftp
+    ChrootDirectory /data/www

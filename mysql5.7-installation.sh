@@ -18,3 +18,19 @@ apt update
 debconf-set-selections <<< 'mysql-community-server mysql-community-server/root-pass password root'
 debconf-set-selections <<< 'mysql-community-server mysql-community-server/re-root-pass password root'
 apt install -y --no-install-recommends 'mysql-client=5.7*' 'mysql-community-server=5.7*' 'mysql-server=5.7*'
+
+# Execute SQL query to create schema, table, and user
+mysql -uroot -proot <<EOF
+CREATE DATABASE test_schema;
+
+USE test_schema;
+
+CREATE TABLE test_table (
+    id INT PRIMARY KEY,
+    nume VARCHAR(255)
+);
+
+CREATE USER 'test_user'@'localhost' IDENTIFIED BY 'test_user123';
+
+GRANT INSERT, UPDATE, EXECUTE ON test_schema.* TO 'test_user'@'localhost';
+EOF

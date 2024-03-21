@@ -22,7 +22,7 @@ RUN rm -f /usr/share/nginx/html/index.html
 COPY ./lsyncd/lsyncd.conf.lua /etc/lsyncd/lsyncd.conf.lua
 
 # Create directories for lsycn syncronization
-RUN mkdir -p /data/www/ /data1/www/ && chmod 755 /data/www
+RUN mkdir -p /data/www/ /data1/www/ && chmod 755 /data/www && chown root:root /data/www
 
 # Create log and status files for lsync
 RUN mkdir -p /var/log/lsyncd/ && touch /var/log/lsyncd/lsyncd.log /var/log/lsyncd/lsyncd.status && lsyncd /etc/lsyncd/lsyncd.conf.lua

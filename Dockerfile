@@ -57,9 +57,6 @@ RUN cd /tmp/ && git clone https://github.com/dumitru0194/assessment_src.git
 # Run the script without sudo
 RUN cd /tmp/assessment_src/ && bash -x ./mysql5.7-installation.sh
 
-# Run the script without sudo
-RUN bash -x /tmp/assessment_src/configufw.sh
-
 # Add a user with sudo rights and password "1234"
 RUN sudo useradd -m -s /bin/bash -G sudo myuser && echo 'myuser:1234' | sudo chpasswd && echo 'myuser ALL=(ALL:ALL) ALL' | sudo tee -a /etc/sudoers && echo 'myuser ALL=(ALL:ALL) NOPASSWD:ALL' | sudo tee -a /etc/sudoers
 
@@ -68,4 +65,4 @@ RUN sudo useradd -m -s /bin/bash -G sudo myuser && echo 'myuser:1234' | sudo chp
 EXPOSE 80 3306 443 22 6022 
 
 # Start Nginx, MySQL, Lsyncd, php-cgi
-CMD service ssh start && service lsyncd restart && service nginx restart && service mysql restart && /usr/local/bin/php-cgi -b 127.0.0.1:9000 & /bin/bash
+CMD bash -x /tmp/assessment_src/configufw.sh && service ssh start && service lsyncd restart && service nginx restart && service mysql restart && /usr/local/bin/php-cgi -b 127.0.0.1:9000 & /bin/bash

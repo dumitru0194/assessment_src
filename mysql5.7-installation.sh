@@ -19,6 +19,9 @@ debconf-set-selections <<< 'mysql-community-server mysql-community-server/root-p
 debconf-set-selections <<< 'mysql-community-server mysql-community-server/re-root-pass password root'
 apt install -y --no-install-recommends 'mysql-client=5.7*' 'mysql-community-server=5.7*' 'mysql-server=5.7*'
 
+# Run MySQL
+service mysql start
+
 # Execute SQL query to create schema, table, and user
 mysql -uroot -proot <<EOF
 CREATE DATABASE test_schema;

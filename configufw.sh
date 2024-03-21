@@ -1,24 +1,27 @@
 #!/bin/bash
 
-# Enable UFW
-sudo ufw enable
+# Flush existing rules and set default policies
+sudo iptables -F
+sudo iptables -P INPUT DROP
+sudo iptables -P FORWARD DROP
+sudo iptables -P OUTPUT ACCEPT
 
-# Set default policies
-sudo ufw default deny incoming
-sudo ufw default allow outgoing
+# Allow loopback traffic
+sudo iptables -A INPUT -i lo -j ACCEPT
+sudo iptables -A OUTPUT -o lo -j ACCEPT
 
-# Allow necessary traffic
-sudo ufw allow ssh
-sudo ufw allow http
-sudo ufw allow https
-sudo ufw allow 3306/tcp  # MySQL
-sudo ufw allow 6022/tcp  # SFTP
+# Allow SSH, HTTP, HTTPS, MySQL, and SFTP
+sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT  # SSH
+sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT  # HTTP
+sudo iptables -A INPUT -p tcp --dport 443 -j ACCEPT # HTTPS
+sudo iptables -A INPUT -p tcp --dport 3306 -j ACCEPT # MySQL
+sudo iptables -A INPUT -p tcp --dport 6022 -j ACCEPT # SFTP
 
-# Allow ICMP traffic for echo-reply
-sudo ufw allow in on eth0 proto icmp type echo-reply
+# Allow ICMP echo-reply
+sudo iptables -A INPUT -p icmp --icmp-type echo-reply -j ACCEPT
 
-# Force enable rules
-sudo ufw --force enable
+# Save the rules
+sudo iptables-save > /etc/iptables/rules.v4
 
-# Show UFW status
-sudo ufw status verbose
+# Show current rules
+sudo iptables -L -v

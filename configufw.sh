@@ -1,24 +1,24 @@
 #!/bin/bash
 
-# Activare UFW
-ufw enable
+# Enable UFW
+sudo ufw enable
 
-# Setare politici implicite
-ufw default deny incoming
-ufw default allow outgoing
+# Set default policies
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
 
-# Permitere trafic necesar
-ufw allow ssh
-ufw allow http
-ufw allow https
-ufw allow 3306/tcp  # MySQL
-ufw allow 6022/tcp  # SFTP
+# Allow necessary traffic
+sudo ufw allow ssh
+sudo ufw allow http
+sudo ufw allow https
+sudo ufw allow 3306/tcp  # MySQL
+sudo ufw allow 6022/tcp  # SFTP
 
-# Permitere trafic ICMP pentru echo-reply
-ufw allow in on eth0 proto icmp type echo-reply
+# Allow ICMP traffic for echo-reply
+sudo ufw allow in on eth0 proto icmp type echo-reply
 
-# Activare reguli
-ufw --force enable
+# Force enable rules
+sudo ufw --force enable
 
-# Afisare starea UFW
-ufw status verbose
+# Show UFW status
+sudo ufw status verbose

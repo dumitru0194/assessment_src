@@ -8,8 +8,8 @@ After process is completed, run " docker run --privileged -it --name custom_ubun
 Then you can verify the functionality by accessing those open ports: http:8080, https:444, ssh:23, sftp:6022, mysql:3309.
 
 **Services Credentials:**
-MySQL: root:root, test_user:test_user123 .
-Linux user: myuser:1234 
+**MySQL:** root:root, test_user:test_user123 .
+**Linux user:** myuser:1234 
 
 
 

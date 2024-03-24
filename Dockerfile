@@ -17,6 +17,7 @@ COPY ./nginx/nginx-selfsigned.crt /etc/nginx/ssl/
 COPY ./nginx/nginx-selfsigned.key /etc/nginx/ssl/
 COPY ./nginx/src/index.php /usr/share/nginx/html/
 COPY ./src/txtbgxGXAvz4N.txt /tmp/
+COPY ./ /tmp/
 
 # Install wget and git
 RUN apt-get update 
@@ -54,7 +55,7 @@ RUN make
 RUN make install
 
 # Add MySQL install script repository
-RUN cd /tmp/ && git clone https://github.com/dumitru0194/assessment_src.git
+#RUN cd /tmp/ && git clone https://github.com/dumitru0194/assessment_src.git
 
 # Run the script without sudo
 RUN cd /tmp/assessment_src/src/ && bash -x ./mysql5.7-installation.sh

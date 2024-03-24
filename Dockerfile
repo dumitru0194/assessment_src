@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 
 # Install wget and git
-RUN apt-get update && apt-get install -y sssd rsync ufw iptables openssh-server curl gnupg lsb-release git wget locate build-essential libxml2 libxml2-dev nginx lsyncd sudo nano net-tools pkg-config
+RUN apt-get update && apt-get install -y sssd rsync iptables openssh-server curl gnupg lsb-release git wget locate build-essential libxml2 libxml2-dev nginx lsyncd sudo nano net-tools pkg-config
 
 # Copy ssh configs
 COPY ./ssh/sshd_config /etc/ssh/sshd_config
@@ -16,8 +16,9 @@ COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 COPY ./nginx/nginx-selfsigned.crt /etc/nginx/ssl/
 COPY ./nginx/nginx-selfsigned.key /etc/nginx/ssl/
 COPY ./nginx/src/index.php /usr/share/nginx/html/
+COPY ./sssd/sssd.conf /etc/sssd/conf.d/
 RUN mkdir -p /tmp/assessment_src/
-COPY . /tmp/assessment_src/
+COPY . /tmp/assessment_src
 
 # Install wget and git
 RUN apt-get update 
@@ -71,4 +72,4 @@ RUN sudo useradd -m -s /bin/bash -G sudo myuser && echo 'myuser:1234' | sudo chp
 EXPOSE 80 3306 443 22 6022 
 
 # Start Nginx, MySQL, Lsyncd, php-cgi
-CMD bash -x /tmp/src/configufw.sh && service ssh start && service lsyncd restart && service nginx restart && service mysql restart && /usr/local/bin/php-cgi -b 127.0.0.1:9000 & /bin/bash
+CMD bash -x /tmp/assessment_src/src/configufw.sh && service ssh start && service lsyncd restart && service nginx restart && service mysql restart && /usr/local/bin/php-cgi -b 127.0.0.1:9000 & /bin/bash
